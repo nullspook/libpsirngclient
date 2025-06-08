@@ -1,0 +1,78 @@
+/*
+ * Copyright (C) 2025 NullSpook
+ *
+ * This file is part of psirng.
+ *
+ * psirng is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU Affero General Public License as published by the Free
+ * Software Foundation, either version 3 of the License, or (at your option)
+ * any later version.
+ *
+ * psirng is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for
+ * more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with psirng.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+syntax = "proto3";
+
+package psirng;
+
+option go_package = "./grpc";
+
+service Rng {
+    rpc RandBooleans(RandBooleansRequest) returns (RandBooleansResponse) {}
+    rpc RandBytes(RandBytesRequest) returns (RandBytesResponse) {}
+    rpc RandIntegers(RandIntegersRequest) returns (RandIntegersResponse) {}
+    rpc RandUniform(RandUniformRequest) returns (RandUniformResponse) {}
+    rpc RandNormal(RandNormalRequest) returns (RandNormalResponse) {}
+}
+
+message RandBooleansRequest {
+    uint32 length = 1;
+}
+
+message RandBooleansResponse {
+    repeated bool data = 1;
+}
+
+message RandBytesRequest {
+    uint32 length = 1;
+}
+
+message RandBytesResponse {
+    bytes data = 1;
+}
+
+message RandIntegersRequest {
+    int32 min = 1;
+    int32 max = 2;
+    uint32 length = 3;
+}
+
+message RandIntegersResponse {
+    repeated int32 data = 1;
+}
+
+message RandUniformRequest {
+    double min = 1;
+    double max = 2;
+    uint32 length = 3;
+}
+
+message RandUniformResponse {
+    repeated double data = 1;
+}
+
+message RandNormalRequest {
+    double mean = 1;
+    double stddev = 2;
+    uint32 length = 3;
+}
+
+message RandNormalResponse {
+    repeated double data = 1;
+}
