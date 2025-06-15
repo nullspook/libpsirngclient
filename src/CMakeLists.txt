@@ -56,8 +56,6 @@ add_custom_command(
         "${health_proto}"
         DEPENDS "${health_proto}")
 
-include_directories("${CMAKE_CURRENT_BINARY_DIR}")
-
 add_library(rng_grpc_proto
         ${rng_grpc_sources}
         ${rng_grpc_headers}
@@ -98,14 +96,10 @@ target_link_libraries(psirngclient_static
 target_include_directories(psirngclient PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 target_include_directories(psirngclient_static PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 
-find_package(OpenSSL REQUIRED)
+set(BORINGSSL_INCLUDE_DIR ${CMAKE_BINARY_DIR}/_deps/grpc-src/third_party/boringssl-with-bazel/src/include)
 
-if (OpenSSL_FOUND)
-    target_include_directories(psirngclient PUBLIC ${OPENSSL_INCLUDE_DIR})
-    target_include_directories(psirngclient_static PUBLIC ${OPENSSL_INCLUDE_DIR})
-else ()
-    message(FATAL_ERROR "OpenSSL not found")
-endif ()
+target_include_directories(psirngclient PUBLIC ${BORINGSSL_INCLUDE_DIR})
+target_include_directories(psirngclient_static PUBLIC ${BORINGSSL_INCLUDE_DIR})
 
 if (CMAKE_GENERATOR MATCHES "Makefiles")
     set_target_properties(psirngclient_static PROPERTIES OUTPUT_NAME psirngclient)

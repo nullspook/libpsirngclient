@@ -7,10 +7,10 @@ Installation
 ------------
 
 ```bash
-# Install build-essential, cmake, and libssl-dev
+# Install build-essential and cmake
 
 sudo apt update
-sudo apt -y install build-essential cmake libssl-dev
+sudo apt -y install build-essential cmake
 
 # Install libpsirngclient
 
