@@ -72,8 +72,10 @@ int psirngclient_init(psirngclient** p, const char* host, int grpc_port, const c
             args.SetSslTargetNameOverride("*");
         }
 
-        psirng::Rng::Stub* rng_stub = new psirng::Rng::Stub(CreateCustomChannel(target, creds, args));
-        health::v1::Health::Stub* health_stub = new health::v1::Health::Stub(CreateCustomChannel(target, creds, args));
+        std::shared_ptr<Channel> channel = CreateCustomChannel(target, creds, args);
+
+        psirng::Rng::Stub* rng_stub = new psirng::Rng::Stub(channel);
+        health::v1::Health::Stub* health_stub = new health::v1::Health::Stub(channel);
 
         *p = (psirngclient*)malloc(sizeof(psirngclient));
         (*p)->rng_stub = rng_stub;
@@ -82,8 +84,11 @@ int psirngclient_init(psirngclient** p, const char* host, int grpc_port, const c
         return PSIRNGCLIENT_RESULT_OK;
     }
 
-    psirng::Rng::Stub* rng_stub = new psirng::Rng::Stub(CreateChannel(target, InsecureChannelCredentials()));
-    health::v1::Health::Stub* health_stub = new health::v1::Health::Stub(CreateChannel(target, InsecureChannelCredentials()));
+    std::shared_ptr<ChannelCredentials> creds = InsecureChannelCredentials();
+    std::shared_ptr<Channel> channel = CreateChannel(target, creds);
+
+    psirng::Rng::Stub* rng_stub = new psirng::Rng::Stub(channel);
+    health::v1::Health::Stub* health_stub = new health::v1::Health::Stub(channel);
 
     *p = (psirngclient*)malloc(sizeof(psirngclient));
     (*p)->rng_stub = rng_stub;
