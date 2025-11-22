@@ -69,7 +69,7 @@ int psirngclient_init(psirngclient** p, const char* host, int grpc_port, const c
         std::string cn = std::string((char*)ASN1_STRING_get0_data(asn1_string), ASN1_STRING_length(asn1_string));
         if (cn == "psirng testing") {
             std::cerr << "WARNING: USING TESTING CERTIFICATE. DO NOT USE THIS IN PRODUCTION." << std::endl;
-            args.SetSslTargetNameOverride("*");
+            args.SetSslTargetNameOverride(cn);
         }
 
         std::shared_ptr<Channel> channel = CreateCustomChannel(target, creds, args);
