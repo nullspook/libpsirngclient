@@ -1,4 +1,5 @@
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+set(ABSL_ENABLE_INSTALL ON)
 
 if(MSVC)
     add_definitions(-D_WIN32_WINNT=0x600)
@@ -8,7 +9,7 @@ include(FetchContent)
 FetchContent_Declare(
         grpc
         GIT_REPOSITORY https://github.com/grpc/grpc.git
-        GIT_TAG v1.51.x
+        GIT_TAG v1.75.x
 )
 FetchContent_MakeAvailable(grpc)
 
